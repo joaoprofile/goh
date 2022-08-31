@@ -5,53 +5,53 @@ import (
 	"net/http"
 )
 
-type appError struct {
+type Error struct {
 	message    string
 	statusCode int
 	Err        error
 }
 
-func New(message string) *appError {
-	return &appError{
+func New(message string) *Error {
+	return &Error{
 		message: message,
 	}
 }
 
-func (e *appError) Error() string {
+func (e *Error) Error() string {
 	return e.message
 }
 
-func (e *appError) NotCataloged() *appError {
+func (e *Error) NotCataloged() *Error {
 	e.statusCode = http.StatusInternalServerError
-	e.Err = errors.New("Internal Error, not cataloged: " + e.message)
+	e.Err = errors.New("Internal Error: " + e.message)
 	return e
 }
 
-func (e *appError) SystemError() *appError {
+func (e *Error) SystemError() *Error {
 	e.statusCode = http.StatusInternalServerError
 	e.Err = errors.New("System Error: " + e.message)
 	return e
 }
 
-func (e *appError) NotFound() *appError {
+func (e *Error) NotFound() *Error {
 	e.statusCode = http.StatusNotFound
 	e.Err = errors.New("Resource not found: " + e.message)
 	return e
 }
 
-func (e *appError) BussinesError() *appError {
+func (e *Error) BussinesError() *Error {
 	e.statusCode = http.StatusBadRequest
 	e.Err = errors.New("Bussines Error: " + e.message)
 	return e
 }
 
-func (e *appError) EntityInUseError() *appError {
+func (e *Error) EntityInUseError() *Error {
 	e.statusCode = http.StatusFailedDependency
 	e.Err = errors.New("Entity in use: " + e.message)
 	return e
 }
 
-func (e *appError) ConflictError() *appError {
+func (e *Error) ConflictError() *Error {
 	e.statusCode = http.StatusConflict
 	e.Err = errors.New("Conflict Error: " + e.message)
 	return e
