@@ -3,6 +3,7 @@ package security
 type Sessions struct {
 	userID   string
 	tenantID string
+	roles    []string
 }
 
 var _instance *Sessions
@@ -30,4 +31,8 @@ func (s *Sessions) GetUser() string {
 
 func (s *Sessions) GetTenant() string {
 	return s.tenantID
+}
+
+func (s *Sessions) GetRoles(value int) []string {
+	return s.roles
 }
