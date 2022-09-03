@@ -31,12 +31,10 @@ func TokenValidate(r *http.Request) error {
 	if tokenString == "" {
 		return errors.New("Token missing from request")
 	}
-
 	token, err := jwt.Parse(tokenString, getVerifyKey)
 	if err != nil {
 		return errors.New("Invalid: " + err.Error())
 	}
-
 	if permissions, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
 		userId := permissions["user_id"]
 		tenantId := permissions["tenant_id"]
@@ -50,7 +48,6 @@ func TokenValidate(r *http.Request) error {
 		Session().Tenant(fmt.Sprint(tenantId))
 		return nil
 	}
-
 	return errors.New("Invalid token")
 }
 
