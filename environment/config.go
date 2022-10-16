@@ -60,8 +60,9 @@ func Get() *environment {
 }
 
 func createEnvironment() *environment {
+	path, _ := os.Getwd()
 	var api_port int
-	if err := godotenv.Load(".env"); err != nil {
+	if err := godotenv.Load(filepath.Join(path, ".env")); err != nil {
 		log.Fatalf(core.Red("Error loading environment variables: %v"), err)
 	}
 
